@@ -1,4 +1,4 @@
- class Contacto{
+export default class Contacto{
     #id
     #nombre
     #apellido
@@ -7,7 +7,7 @@
     #imagen
     #notas
     constructor(nombre, apellido, telefono, email, imagen, notas){
-        this.#id = crypto.randomUUID(); 
+        this.#id = crypto.randomUUID(); //2346sdg34g3g-77df67s-sdf8df
         this.#nombre = nombre;
         this.#apellido = apellido;
         this.#telefono = telefono;

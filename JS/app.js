@@ -1,6 +1,6 @@
-import Contacto from "./classContacto.js";
+import Contacto from "./contacto.js";
 
-//funciones
+// funciones
 const abrirModal = () => {
   const modalContacto = new bootstrap.Modal(
     document.getElementById("modalContacto")
@@ -20,14 +20,20 @@ const crearContacto = () => {
     inputImagen.value,
     inputNotas.value
   );
-  console.log(contactoNuevo);
+  //guardar el contacto en un array
   agenda.push(contactoNuevo);
   console.log(agenda);
-  //guradar el contacto en un array
-  limpiarFormulario();
+  //guardar la agenda en localstorage
   guardarLocalStorage();
-
-  // mostrar un mensaje al usuario qie se creo el contacto
+  //dibujar este contacto nuevo en la tabla
+  dibujarFila(contactoNuevo, agenda.length);
+  limpiarFormulario();
+  // mostrar un mensaje al usuario indicando que se creo el contacto
+  Swal.fire({
+    title: "Contacto creado",
+    text: `El contacto ${contactoNuevo.nombre}, fue creado correctamente`,
+    icon: "success",
+  });
 };
 
 const limpiarFormulario = () => {
@@ -36,6 +42,32 @@ const limpiarFormulario = () => {
 
 const guardarLocalStorage = () => {
   localStorage.setItem("agendaKey", JSON.stringify(agenda));
+};
+
+const cargarDatosTabla = () => {
+  //verificar si la agenda tiene datos
+  if (agenda.length !== 0) {
+    //dibujar una fila por cada contacto de la agenda
+    agenda.map((contacto, indice) => dibujarFila(contacto, indice + 1));
+  }
+  //si no hay datos en la agenda mostrar un mensaje al usuario
+};
+
+const dibujarFila = (contacto, indice) => {
+  console.log(contacto);
+  //agregar una fila (tr) nueva al tbody de la tabla de contactos
+  tablaContactos.innerHTML += `<tr>
+              <th scope="row">${indice}</th>
+              <td>${contacto.nombre}</td>
+              <td>${contacto.apellido}</td>
+              <td>${contacto.telefono}</td>
+              <td>${contacto.email}</td>
+              <td>
+                <button class="btn btn-warning">Editar</button>
+                <button class="btn btn-danger">Borrar</button>
+                <button class="btn btn-info">Ver</button>
+              </td>
+            </tr>`;
 };
 
 //declarar variables
@@ -48,6 +80,7 @@ const inputTelefono = document.querySelector("#telefono");
 const inputNotas = document.querySelector("#notas");
 const inputImagen = document.querySelector("#imagen");
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
+const tablaContactos = document.querySelector("tbody");
 
 //agrego los manejadores de eventos
 btnAgregar.addEventListener("click", abrirModal);
@@ -57,3 +90,6 @@ formularioContacto.addEventListener("submit", (e) => {
   crearContacto();
   //algun dia aqui voy a editar un contacto
 });
+
+//resto de la logica
+cargarDatosTabla();
