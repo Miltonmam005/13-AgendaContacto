@@ -3,15 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./CSS/bootstrap.min (1).css" >
-   <!-- <link rel="stylesheet" href="./css/bootstrap.min.css" >-->
+    <meta
+      name="description"
+      content="pagina de contactos aprenderemos a borrar, editar, y agregar y validad los contactos"
+    />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Mamani Milton" />
+    <link rel="stylesheet" href="./CSS/bootstrap.min (1).css" />
+    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css" >-->
     <link
       href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.min.css
 "
       rel="stylesheet"
-    >
-    <link rel="stylesheet" href="./css/style.css" >
+    />
+    <link rel="stylesheet" href="./css/style.css" />
     <title>Agenda de contactos</title>
   </head>
   <body>
@@ -63,7 +69,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.min.css
         </table>
       </section>
     </main>
-    <!-- Modal contacto-->
     <div
       class="modal fade"
       id="modalContacto"
@@ -97,6 +102,11 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.22.0/dist/sweetalert2.min.css
                   maxlength="50"
                   placeholder="Ej: Juan"
                 />
+                <div class="valid-feedback">El nombre es correcto</div>
+                <div class="invalid-feedback">
+                  El nombre es oblogatorio y debe contener entre 2 y 50
+                  caracteres
+                </div>
               </div>
               <div class="mb-3">
                 <label for="apellido" class="form-label">Apellido</label>
