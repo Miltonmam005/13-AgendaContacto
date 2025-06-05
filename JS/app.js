@@ -11,28 +11,30 @@ const abrirModal = () => {
 const crearContacto = () => {
   //todo: tomar los datos del formulario y validarlos
   //con los datos voy a crear un objeto contacto
-  const contactoNuevo = new Contacto(
-    inputNombre.value,
-    inputApellido.value,
-    inputTelefono.value,
-    inputEmail.value,
-    inputImagen.value,
-    inputNotas.value
-  );
-  //guardar el contacto en un array
-  agenda.push(contactoNuevo);
-  console.log(agenda);
-  //guardar la agenda en localstorage
-  guardarLocalStorage();
-  //dibujar este contacto nuevo en la tabla
-  dibujarFila(contactoNuevo, agenda.length);
-  limpiarFormulario();
-  // mostrar un mensaje al usuario indicando que se creo el contacto
-  Swal.fire({
-    title: "Contacto creado",
-    text: `El contacto ${contactoNuevo.nombre}, fue creado correctamente`,
-    icon: "success",
-  });
+  if (validaciones()) {
+    const contactoNuevo = new Contacto(
+      inputNombre.value,
+      inputApellido.value,
+      inputTelefono.value,
+      inputEmail.value,
+      inputImagen.value,
+      inputNotas.value
+    );
+    //guardar el contacto en un array
+    agenda.push(contactoNuevo);
+    console.log(agenda);
+    //guardar la agenda en localstorage
+    guardarLocalStorage();
+    //dibujar este contacto nuevo en la tabla
+    dibujarFila(contactoNuevo, agenda.length);
+    limpiarFormulario();
+    // mostrar un mensaje al usuario indicando que se creo el contacto
+    Swal.fire({
+      title: "Contacto creado",
+      text: `El contacto ${contactoNuevo.nombre}, fue creado correctamente`,
+      icon: "success",
+    });
+  }
 };
 
 const limpiarFormulario = () => {
@@ -128,10 +130,12 @@ window.prepararContacto = (id) => {
 
 window.verContacto = (id) => {
   console.log(window.location);
-  window.location.href = "./pages/detalleContacto.html?cod=" + id;
+  window.location.href = "/Paginas/detallesContacto.html?cod=" + id;
 };
 
 const editarContacto = () => {
+  if(validaciones()){
+
   console.log("aqui debo agregar la logica que edite al contacto en el array");
   //agarrar los datos del formulario y actualizarlos dentro del array agenda
   const posicionContacto = agenda.findIndex(
@@ -167,6 +171,7 @@ const editarContacto = () => {
     text: `El contacto ${agenda[posicionContacto].nombre} fue modificado correctamente`,
     icon: "success",
   });
+  };
 };
 
 // funciones de validacion
@@ -195,8 +200,28 @@ function validarEmail() {
   }
 }
 
+
+function validarTelefono() {
+  const regExp =
+    /^(?:\+54\s9\s)?381\d{5,6}$/;
+  if (regExp.test(inputTelefono.value)) {
+    inputTelefono.classList.add("is-valid");
+    inputTelefono.classList.remove("is-invalid");
+    return true;
+  } else {
+    inputTelefono.classList.add("is-invalid");
+    inputTelefono.classList.remove("is-valid");
+    return false;
+  }
+}
+
+
 function validaciones() {
   let datosValidos = true;
+  // if(true){
+  // datosvalidados= false
+  // }
+
   if (!validarCantidadCaracteres(inputNombre, 2, 50)) {
     datosValidos = false;
   }
@@ -204,7 +229,13 @@ function validaciones() {
   if (!validarCantidadCaracteres(inputApellido, 2, 50)) {
     datosValidos = false;
   }
+ if(!validarEmail ()){
+  datosValidos= false
+ }
 
+ if(!validarTelefono ()){
+  datosValidos =false  
+}
   return datosValidos;
 }
 
