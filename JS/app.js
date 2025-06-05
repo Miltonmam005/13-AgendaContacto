@@ -130,10 +130,12 @@ window.prepararContacto = (id) => {
 
 window.verContacto = (id) => {
   console.log(window.location);
-  window.location.href = "./pages/detalleContacto.html?cod=" + id;
+  window.location.href = "/Paginas/detallesContacto.html?cod=" + id;
 };
 
 const editarContacto = () => {
+  if(validaciones()){
+
   console.log("aqui debo agregar la logica que edite al contacto en el array");
   //agarrar los datos del formulario y actualizarlos dentro del array agenda
   const posicionContacto = agenda.findIndex(
@@ -169,6 +171,7 @@ const editarContacto = () => {
     text: `El contacto ${agenda[posicionContacto].nombre} fue modificado correctamente`,
     icon: "success",
   });
+  };
 };
 
 // funciones de validacion
@@ -197,6 +200,22 @@ function validarEmail() {
   }
 }
 
+
+function validarTelefono() {
+  const regExp =
+    /^(?:\+54\s9\s)?381\d{5,6}$/;
+  if (regExp.test(inputTelefono.value)) {
+    inputTelefono.classList.add("is-valid");
+    inputTelefono.classList.remove("is-invalid");
+    return true;
+  } else {
+    inputTelefono.classList.add("is-invalid");
+    inputTelefono.classList.remove("is-valid");
+    return false;
+  }
+}
+
+
 function validaciones() {
   let datosValidos = true;
   // if(true){
@@ -213,6 +232,10 @@ function validaciones() {
  if(!validarEmail ()){
   datosValidos= false
  }
+
+ if(!validarTelefono ()){
+  datosValidos =false  
+}
   return datosValidos;
 }
 
